@@ -53,6 +53,24 @@ public class ChessBoard {
         };
     }
 
+    public void movePiece(ChessMove move) {
+
+        int initialRow = move.getStartPosition().getRow() - 1;
+        int lastRow = move.getEndPosition().getRow() - 1;
+
+        int initialCol = move.getStartPosition().getColumn() - 1;
+        int lastCol = move.getEndPosition().getColumn() - 1;
+
+        ChessPiece initialPiece = getPiece(move.getStartPosition());
+
+        if (initialPiece.getPieceType() != ChessPiece.PieceType.PAWN)
+            squares[lastRow][lastCol] = initialPiece;
+        else if (move.getPromotionPiece() != null)
+            squares[lastRow][lastCol] = new ChessPiece(initialPiece.getTeamColor(), move.getPromotionPiece());
+        else
+            squares[lastRow][lastCol] = initialPiece;
+    }
+
     private void initPieces(ChessGame.TeamColor teamColor) {
 
         int frontRow = teamColor == ChessGame.TeamColor.BLACK ? 6 : 1;
@@ -86,7 +104,6 @@ public class ChessBoard {
         squares[row][6] = knight;
         squares[row][7] = rook;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -78,8 +78,6 @@ public class PawnMove extends PieceMove {
 
         return moves;
     }
-
-
     private Collection<ChessMove> createPromotion(ChessPosition startPos, ChessPosition endPos) {
         ArrayList<ChessMove> moves = new ArrayList<>();
 

@@ -17,7 +17,6 @@ public class ChessPosition {
         this.row = row;
         this.col = col;
     }
-
     /**
      * @return which row this position is in
      * 1 codes for the bottom row
@@ -25,7 +24,6 @@ public class ChessPosition {
     public int getRow() {
         return row;
     }
-
     /**
      * @return which column this position is in
      * 1 codes for the left row
@@ -33,7 +31,6 @@ public class ChessPosition {
     public int getColumn() {
         return col;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
