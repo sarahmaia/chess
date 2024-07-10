@@ -152,4 +152,30 @@ public class ChessGame {
         }
         return false;
     }
+
+    private boolean hasValidMoves(TeamColor teamColor) {
+        for (int row = 1; row <= 8; row++) {
+            for (int col = 1; col <= 8; col++) {
+                ChessPosition position = new ChessPosition(row, col);
+                ChessPiece piece = board.getPiece(position);
+                if (piece != null && piece.getTeamColor() == teamColor) {
+                    Collection<ChessMove> moves = validMoves(position);
+                    for (ChessMove move : moves) {
+
+                        ChessPiece originalEndPiece = board.getPiece(move.getEndPosition());
+                        board.movePiece(move);
+                        boolean isStillInCheck = isInCheck(teamColor);
+
+                        board.addPiece(move.getStartPosition(), piece);
+                        board.addPiece(move.getEndPosition(), originalEndPiece);
+
+                        if (!isStillInCheck) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
