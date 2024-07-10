@@ -69,6 +69,8 @@ public class ChessBoard {
             squares[lastRow][lastCol] = new ChessPiece(initialPiece.getTeamColor(), move.getPromotionPiece());
         else
             squares[lastRow][lastCol] = initialPiece;
+
+        squares[initialRow][initialCol] = null;
     }
 
     private void initPieces(ChessGame.TeamColor teamColor) {
