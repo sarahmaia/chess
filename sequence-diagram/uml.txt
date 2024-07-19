@@ -27,8 +27,8 @@ Client -> Server: [POST] /session\n{username, password}
 Server -> Handler: "username":" ", "password":" "
 Handler -> Service: login(LoginRequest)
 Service -> DataAccess: getUser(username)
-DataAccess -> db: SELECT username, password FROM user
-DataAccess --> Service: username, password
+DataAccess -> db: select username, password from user
+DataAccess --> Service: UserData
 Service -> DataAccess: createAuth(username)
 DataAccess -> db: insert username, authToken into auth
 DataAccess --> Service: authToken
@@ -55,7 +55,7 @@ Server -> Handler: "authorization": "<authToken>"
 Handler -> Service: listGames(ListGameRequest)
 Service -> DataAccess: getAuth(authToken)
 DataAccess -> db: select authToken, username from auth
-DataAccess --> Service: username, authToken
+DataAccess --> Service: AuthData
 Service -> DataAccess: listGames()
 DataAccess-> db: select games
 DataAccess --> Service: GameList
@@ -69,11 +69,11 @@ Client -> Server: [POST] /game\nauthToken\n{gameName}
 Server->Handler:authorization: <authToken>\n{ "gameName":" " }\n
 Handler -> Service: createGame(CreateGameRequest)
 Service -> DataAccess: getAuth(authToken)
-DataAccess -> db: Find AuthData from authToken
-DataAccess <-- db: AuthData
+DataAccess -> db: select AuthData from auth
 Service <-- DataAccess: AuthData
 Service -> DataAccess: createGame(gameData)
-DataAccess -> db: create ChessGame from gameData
+Service <-- DataAccess: gameID
+DataAccess -> db: insert ChessGame into game
 Handler <-- Service: CreateGameResult
 Server <-- Handler: "gameID"
 Client <-- Server: 200\n "gameID"
@@ -85,10 +85,11 @@ Server -> Handler: {"authorization": "<authToken>"}\{ "playerColor":"<playerColo
 Handler -> Service: joinGame(JoinGameRequest)
 Service -> DataAccess: getAuth(authToken)
 DataAccess -> db: select authToken, username from auth
-DataAccess --> Service: username, authToken
+DataAccess --> Service: AuthData
 Service -> DataAccess: getGame(gameID)
 DataAccess -> db: select game from games
-DataAccess --> Service: game
+DataAccess --> Service: GameData
+Service -> DataAccess: get player, color and check if taken
 DataAccess -> db: insert player, color into games
 Service --> Handler: JoinGameResult
 Handler --> Server: {}
@@ -99,7 +100,9 @@ group #gray Clear application #white
 Client -> Server: [DELETE] /db
 Server -> Handler: {}
 Handler -> Service: deleteDatabase()
-Service -> DataAccess: clear()
+Service -> DataAccess: AuthDAO clear()
+Service -> DataAccess: UserDAO clear()
+Service -> DataAccess: GameDAO clear()
 DataAccess -> db: delete from <table>
 Service <-- DataAccess: null
 Handler <-- Service: DeleteDatabaseResult
