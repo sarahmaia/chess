@@ -6,6 +6,7 @@ import dataaccess.DAO.MemoryUserDAO;
 import model.*;
 
 public class UserService {
+
     private final MemoryUserDAO userDAO;
     private final MemoryAuthDAO authDAO;
 
@@ -29,9 +30,21 @@ public class UserService {
         }
     }
 
+    public AuthData loginUser(UserData user) throws UnauthorizedException, BadRequestException {
+        String hashedPassword = MemoryUserDAO.hashPassword(user.password());
+        UserData hashedUser = new UserData(user.username(), hashedPassword, user.email());
+        UserData validateUser = userDAO.getUser(hashedUser.username());
+
+        if (validateUser == null || !validateUser.password().equals(hashedUser.password())) {
+            throw new UnauthorizedException("unauthorized");
+        }
+
+        return authDAO.createAuth(hashedUser.username());
+
+    }
+
     public void clear() {
         userDAO.clear();
         authDAO.clear();
     }
-
 }
