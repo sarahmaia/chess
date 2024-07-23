@@ -1,55 +1,38 @@
 package dataaccess.DAO;
 
-import model.GameData;
-import chess.ChessGame;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.security.SecureRandom;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MemoryGameDAO {
-    private final Map<Integer, GameData> games = new HashMap<>();
+import static org.junit.jupiter.api.Assertions.*;
 
-    public MemoryGameDAO() {
+class MemoryGameDAOTest {
+
+    @BeforeEach
+    void setUp() {
     }
 
-    public GameData createGame(String gameName) {
-
-        int newGameID = generateNewGameID();
-
-        GameData newGameData = new GameData(
-                newGameID,
-                null,
-                null, gameName,
-                new ChessGame()
-        );
-
-        games.put(newGameID, newGameData);
-        return newGameData;
+    @AfterEach
+    void tearDown() {
     }
 
-    public GameData getGame(int gameID) {
-        return games.get(gameID);
+    @Test
+    void createGame() {
     }
 
-    public Collection<GameData> readAllGames() {
-        return games.values();
+    @Test
+    void getGame() {
     }
 
-    public void updateGame(GameData game) {
-        games.put(game.gameID(), game);
+    @Test
+    void readAllGames() {
     }
 
-    public void clear() {
-        games.clear();
+    @Test
+    void updateGame() {
     }
 
-    private int generateNewGameID() {
-        SecureRandom random = new SecureRandom();
-        int randomID = random.nextInt(Integer.MAX_VALUE);
-        while (games.containsKey(randomID)) {
-            randomID = random.nextInt(Integer.MAX_VALUE);
-        }
-        return randomID;
+    @Test
+    void clear() {
     }
 }

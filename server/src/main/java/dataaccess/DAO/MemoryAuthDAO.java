@@ -1,27 +1,30 @@
 package dataaccess.DAO;
 
-import model.AuthData;
-import model.UserData;
-import java.util.HashMap;
-import java.util.Map;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MemoryAuthDAO {
-    private final Map<String, AuthData> auths = new HashMap<>();
+import static org.junit.jupiter.api.Assertions.*;
 
-    public MemoryAuthDAO() {}
+class MemoryAuthDAOTest {
 
-    public AuthData createAuth(String username) {
-        AuthData auth = new AuthData(AuthData.createToken(), username);
-        auths.put(username, auth);
-        return auth;
+    @BeforeEach
+    void setUp() {
     }
 
-    public AuthData getAuth(String username) {
-        return auths.get(username);
+    @AfterEach
+    void tearDown() {
     }
 
-    public void clear() {
-        auths.clear();
+    @Test
+    void createAuth() {
     }
 
+    @Test
+    void getAuth() {
+    }
+
+    @Test
+    void clear() {
+    }
 }
