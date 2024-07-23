@@ -1,31 +1,26 @@
 package dataaccess.DAO;
 
-import dataaccess.DataAccessException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import model.UserData;
 
-class MemoryUserDAOTest {
+public class MemoryUserDAO {
+    private final Map<String, UserData> users = new HashMap<>();
 
-    @BeforeEach
-    void setUp() throws DataAccessException {
+    public MemoryUserDAO() {
     }
 
-    @AfterEach
-    void tearDown() {
+    public UserData createUser(UserData user) {
+        users.put(user.username(), user);
+        return user;
     }
 
-    @Test
-    void createUser() {
+    public UserData getUser(String username) {
+        return users.get(username);
     }
 
-    @Test
-    void getUser() {
-    }
-
-    @Test
-    void clear() {
+    public void clear() {
+        users.clear();
     }
 }
