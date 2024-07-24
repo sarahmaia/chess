@@ -5,7 +5,6 @@ import spark.Response;
 import java.util.Map;
 
 public class ErrorHandler {
-
     private final Gson serializer = new Gson();
 
     public Object handleError(Exception e, Response res, int statusCode) {
