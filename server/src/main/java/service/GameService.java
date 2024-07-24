@@ -1,15 +1,12 @@
 package service;
 
 import dataaccess.DataAccessException;
-import dataaccess.exceptions.UserExistsException;
-import dataaccess.exceptions.BadRequestException;
+import dataaccess.exceptions.*;
 import dataaccess.DAO.MemoryGameDAO;
 import model.GameData;
-
 import java.util.Collection;
 
 public class GameService {
-
     private final MemoryGameDAO gameDAO;
 
     public GameService(MemoryGameDAO gameDAO) {
@@ -17,10 +14,10 @@ public class GameService {
     }
 
     public GameData createGame(GameData gameData) throws BadRequestException {
-
         if (gameData.gameName() == null || gameData.gameName().isEmpty()) {
             throw new BadRequestException("missing name");
-        } else {
+        }
+        else {
             return gameDAO.createGame(gameData.gameName());
         }
     }
@@ -36,7 +33,7 @@ public class GameService {
             throw new BadRequestException("bad request");
         }
 
-        if (joinedColor.equals("WHITE") && (gameToJoin.whiteUsername() == null || gameToJoin.whiteUsername().isEmpty())) {
+        if ( joinedColor.equals("WHITE") && (gameToJoin.whiteUsername() == null || gameToJoin.whiteUsername().isEmpty())) {
             gameDAO.updateGame(
                     new GameData(
                             gameID,
@@ -56,7 +53,8 @@ public class GameService {
                             gameToJoin.game()
                     )
             );
-        } else {
+        }
+        else {
             throw new UserExistsException("already taken");
         }
         return gameDAO.getGame(gameID);
