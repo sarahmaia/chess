@@ -1,27 +1,23 @@
 package dataaccess.DAO;
 
 import model.AuthData;
-import model.UserData;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryAuthDAO {
-    private final Map<String, AuthData> auths = new HashMap<>();
+    private final Map<AuthData, String> authentications = new HashMap<>();
 
     public MemoryAuthDAO() {}
 
     public AuthData createAuth(String username) {
         AuthData auth = new AuthData(AuthData.createToken(), username);
-        auths.put(username, auth);
+        authentications.put(auth, username);
         return auth;
     }
 
-    public AuthData getAuth(String username) {
-        return auths.get(username);
-    }
-
     public AuthData getAuthByToken(String token) {
-        for (AuthData auth : auths.values()) {
+        for (AuthData auth : authentications.keySet()) {
             if (auth.authToken().equals(token)) {
                 return auth;
             }
@@ -31,12 +27,11 @@ public class MemoryAuthDAO {
 
     public void deleteAuth(String authToken) {
         AuthData auth = getAuthByToken(authToken);
-        String username = auth.username();
-        auths.remove(username);
+        authentications.remove(auth);
     }
 
     public void clear() {
-        auths.clear();
+        authentications.clear();
     }
 
 }

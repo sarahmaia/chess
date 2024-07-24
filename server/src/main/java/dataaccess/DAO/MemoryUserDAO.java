@@ -10,8 +10,7 @@ import model.UserData;
 public class MemoryUserDAO {
     private final Map<String, UserData> users = new HashMap<>();
 
-    public MemoryUserDAO() {
-    }
+    public MemoryUserDAO() {}
 
     public UserData createUser(UserData user) {
         String hashedPassword = hashPassword(user.password());

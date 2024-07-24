@@ -2,6 +2,7 @@ package dataaccess.DAO;
 
 import model.GameData;
 import chess.ChessGame;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +15,13 @@ public class MemoryGameDAO {
     }
 
     public GameData createGame(String gameName) {
-
         int newGameID = generateNewGameID();
 
         GameData newGameData = new GameData(
                 newGameID,
                 null,
-                null, gameName,
+                null,
+                gameName,
                 new ChessGame()
         );
 
