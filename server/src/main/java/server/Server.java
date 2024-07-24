@@ -14,7 +14,7 @@ public class Server {
         MemoryGameDAO gameDao = new MemoryGameDAO();
         MemoryUserDAO userDao = new MemoryUserDAO();
         this.GameService = new GameService(gameDao, authDao);
-        this.UserService = new UserService(userDao, authDao);
+        this.UserService = new UserService(userDao);
     }
 
     public int run(int desiredPort) {

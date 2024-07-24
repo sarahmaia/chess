@@ -20,6 +20,21 @@ public class MemoryAuthDAO {
         return auths.get(username);
     }
 
+    public AuthData getAuthByToken(String token) {
+        for (AuthData auth : auths.values()) {
+            if (auth.authToken().equals(token)) {
+                return auth;
+            }
+        }
+        return null;
+    }
+
+    public void deleteAuth(String authToken) {
+        AuthData auth = getAuthByToken(authToken);
+        String username = auth.username();
+        auths.remove(username);
+    }
+
     public void clear() {
         auths.clear();
     }
