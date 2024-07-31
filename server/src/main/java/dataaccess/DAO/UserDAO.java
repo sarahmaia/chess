@@ -1,4 +1,4 @@
-package dataaccess.dao;
+package dataaccess.DAO;
 
 import dataaccess.exceptions.*;
 import dataaccess.SQLParent;
