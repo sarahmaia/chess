@@ -2,18 +2,18 @@ package service;
 
 import dataaccess.DataAccessException;
 import dataaccess.exceptions.*;
-import dataaccess.DAO.MemoryGameDAO;
+import dataaccess.DAO.GameDAO;
 import model.GameData;
 import java.util.Collection;
 
 public class GameService {
-    private final MemoryGameDAO gameDAO;
+    private final GameDAO gameDAO;
 
-    public GameService(MemoryGameDAO gameDAO) {
+    public GameService(GameDAO gameDAO) {
         this.gameDAO = gameDAO;
     }
 
-    public GameData createGame(GameData gameData) throws BadRequestException {
+    public GameData createGame(GameData gameData) throws BadRequestException, DataAccessException {
         if (gameData.gameName() == null || gameData.gameName().isEmpty()) {
             throw new BadRequestException("missing name");
         }
@@ -26,7 +26,7 @@ public class GameService {
         return gameDAO.readAllGames();
     }
 
-    public GameData joinGame(int gameID, String joinedColor, String username) throws UserExistsException, BadRequestException {
+    public GameData joinGame(int gameID, String joinedColor, String username) throws UserExistsException, BadRequestException, DataAccessException {
         GameData gameToJoin = gameDAO.getGame(gameID);
 
         if (gameToJoin == null) {
@@ -43,7 +43,8 @@ public class GameService {
                             gameToJoin.game()
                     )
             );
-        } else if (joinedColor.equals("BLACK") && (gameToJoin.blackUsername() == null || gameToJoin.blackUsername().isEmpty())) {
+        }
+        else if (joinedColor.equals("BLACK") && (gameToJoin.blackUsername() == null || gameToJoin.blackUsername().isEmpty())) {
             gameDAO.updateGame(
                     new GameData(
                             gameID,
@@ -60,7 +61,7 @@ public class GameService {
         return gameDAO.getGame(gameID);
     }
 
-    public void clearGames() {
+    public void clearGames() throws BadRequestException {
         gameDAO.clear();
     }
 }
