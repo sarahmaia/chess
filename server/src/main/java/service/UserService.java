@@ -1,17 +1,19 @@
 package service;
 
 import dataaccess.exceptions.*;
-import dataaccess.DAO.MemoryUserDAO;
+import dataaccess.DataAccessException;
+import dataaccess.DAO.UserDAO;
 import model.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService {
-    private final MemoryUserDAO userDAO;
+    private final UserDAO userDAO;
 
-    public UserService(MemoryUserDAO userDAO) {
+    public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
-    public UserData createUser(UserData user) throws UserExistsException, BadRequestException {
+    public UserData createUser(UserData user) throws UserExistsException, BadRequestException, DataAccessException {
         UserData checkUsername = userDAO.getUser(user.username());
 
         if (checkUsername != null) {
@@ -26,17 +28,15 @@ public class UserService {
         }
     }
 
-    public void validateUser(UserData user) throws UnauthorizedException {
-        String hashedPassword = MemoryUserDAO.hashPassword(user.password());
-        UserData hashedUser = new UserData(user.username(), hashedPassword, user.email());
-        UserData validateUser = userDAO.getUser(hashedUser.username());
+    public void validateUser(UserData user) throws UnauthorizedException, DataAccessException {
+        UserData validateUser = userDAO.getUser(user.username());
 
-        if (validateUser == null || !validateUser.password().equals(hashedUser.password())) {
+        if (validateUser == null || !BCrypt.checkpw(user.password(), validateUser.password())) {
             throw new UnauthorizedException("unauthorized");
         }
     }
 
-    public void clear() {
+    public void clear() throws BadRequestException, DataAccessException {
         userDAO.clear();
     }
 
