@@ -2,17 +2,22 @@ package service;
 
 import dataaccess.exceptions.*;
 import dataaccess.DataAccessException;
-import dataaccess.DAO.*;
+import dataaccess.DAO.GameDAO;
+import dataaccess.DAO.MemoryAuthDAO;
+import dataaccess.DAO.MemoryUserDAO;
 import model.AuthData;
 import model.GameData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class GameServiceTest {
     private MemoryAuthDAO memoryAuthDAO;
-    private MemoryGameDAO memoryGameDAO;
+    private GameDAO memoryGameDAO;
     private MemoryUserDAO memoryUserDAO;
     private AuthData authData;
     private GameService gameService;
@@ -20,14 +25,14 @@ class GameServiceTest {
     @BeforeEach
     void setUp() {
         memoryAuthDAO = new MemoryAuthDAO();
-        memoryGameDAO = new MemoryGameDAO();
+        memoryGameDAO = new GameDAO();
         memoryUserDAO = new MemoryUserDAO();
         authData = memoryAuthDAO.createAuth("gameTester");
         gameService = new GameService(memoryGameDAO);
     }
 
     @Test
-    void createGame() throws BadRequestException {
+    void createGame() throws BadRequestException, DataAccessException {
         GameData testGame = new GameData(0, null, null, "Test", null);
         testGame = gameService.createGame(testGame);
         assertNotEquals(0, testGame.gameID());
@@ -56,7 +61,7 @@ class GameServiceTest {
     }
 
     @Test
-    void joinGameWhite() throws BadRequestException, UserExistsException {
+    void joinGameWhite() throws BadRequestException, UserExistsException, DataAccessException {
         GameData testGame = new GameData(0, null, null, "TestJoin", null);
         testGame = gameService.createGame(testGame);
         GameData checkJoin = gameService.joinGame(testGame.gameID(), "WHITE", authData.username());
@@ -64,7 +69,7 @@ class GameServiceTest {
     }
 
     @Test
-    void joinGameBlack() throws BadRequestException, UserExistsException {
+    void joinGameBlack() throws BadRequestException, UserExistsException, DataAccessException {
         GameData testGame = new GameData(0, null, null, "TestJoin", null);
         testGame = gameService.createGame(testGame);
         GameData checkJoin = gameService.joinGame(testGame.gameID(), "BLACK", authData.username());
@@ -72,7 +77,7 @@ class GameServiceTest {
     }
 
     @Test
-    void invalidJoinGameWhite() throws BadRequestException, UserExistsException {
+    void invalidJoinGameWhite() throws BadRequestException, UserExistsException, DataAccessException {
         GameData testGame = new GameData(0, null, null, "TestJoin", null);
         testGame = gameService.createGame(testGame);
         testGame = gameService.joinGame(testGame.gameID(), "WHITE", "Bob");
@@ -81,7 +86,7 @@ class GameServiceTest {
     }
 
     @Test
-    void clearGames() throws DataAccessException {
+    void clearGames() throws DataAccessException, BadRequestException {
         GameData testGame = new GameData(0, null, null, "Test", null);
         gameService.clearGames();
         assertTrue(gameService.listAllGames().isEmpty());
