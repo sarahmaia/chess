@@ -12,3 +12,4 @@ public class DrawBoard {
     public DrawBoard() {
         chessGame = new ChessGame();
     }
+}
