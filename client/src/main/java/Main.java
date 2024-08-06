@@ -1,5 +1,4 @@
 import chess.*;
-
 import ui.DrawBoard;
 import ui.Menu;
 import java.util.Scanner;

@@ -9,9 +9,8 @@ import server.Server;
 import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServerFacadeTests {
+public class ServerFacadeTest {
     private static Server server;
-
     private static ServerFacade serverFacade;
 
     @BeforeAll
