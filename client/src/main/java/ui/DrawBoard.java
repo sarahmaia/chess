@@ -10,6 +10,8 @@ import java.util.Map;
 public class DrawBoard {
     private final String[][] chessBoard = new String[10][10];
 
+    private final String borderSquare = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK;
+
     public DrawBoard() {
         resetBoard();
         ChessGame chessGame = new ChessGame();
@@ -40,7 +42,6 @@ public class DrawBoard {
 
         for (int row = 0; row < chessBoard.length; row++) {
             for (int col = 0; col < chessBoard[row].length; col++) {
-                String borderSquare = EscapeSequences.SET_BG_COLOR_LIGHT_GREY + EscapeSequences.SET_TEXT_COLOR_BLACK;
                 if (row == 0 || row == chessBoard.length - 1) {
                     chessBoard[row][col] = borderSquare + colLabels[col];
                 }
