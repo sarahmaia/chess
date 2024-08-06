@@ -73,19 +73,20 @@ public class Menu {
     private void printHelp() {
         StringBuilder returnString = new StringBuilder();
         switch (currentState) {
-            case LOGGED_OUT:
+            case LOGGED_OUT -> {
                 returnString.append(SET_TEXT_COLOR_MAGENTA + "login <USERNAME> <PASSWORD>" + RESET_TEXT_COLOR)
-                        .append( " - Login to an existing account." + "\n");
+                        .append(" - Login to an existing account." + "\n");
                 returnString.append(SET_TEXT_COLOR_MAGENTA + "register <USERNAME> <PASSWORD> <EMAIL>" + RESET_TEXT_COLOR)
-                        .append( " - Register a new account." + "\n");
-                break;
-            case LOGGED_IN, WHITE, BLACK, OBSERVER:
+                        .append(" - Register a new account." + "\n");
+            }
+            case LOGGED_IN, WHITE, BLACK, OBSERVER -> {
                 returnString.append(SET_TEXT_COLOR_MAGENTA).append("logout").append(RESET_TEXT_COLOR)
                         .append(" - Log out of ").append(username).append(".").append("\n");
                 returnString.append(SET_TEXT_COLOR_MAGENTA).append("create <Name>").append(RESET_TEXT_COLOR).append(" - Creates a new game.\n");
                 returnString.append(SET_TEXT_COLOR_MAGENTA).append("list").append(RESET_TEXT_COLOR).append(" - Lists all active games.\n");
                 returnString.append(SET_TEXT_COLOR_MAGENTA).append("join <ID> [WHITE|BLACK]").append(RESET_TEXT_COLOR)
                         .append(" - Joins a game with the given ID.\n");
+            }
         }
         returnString.append(SET_TEXT_COLOR_MAGENTA + "help" + RESET_TEXT_COLOR + " - List possible operations." + "\n");
         returnString.append(SET_TEXT_COLOR_MAGENTA + "quit" + RESET_TEXT_COLOR + " - Quit the program." + "\n");
