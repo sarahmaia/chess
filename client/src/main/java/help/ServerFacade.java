@@ -17,7 +17,6 @@ import java.util.Map;
 public class ServerFacade {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final Gson gson = new Gson();
-
     private final String serverAddress;
 
     public ServerFacade(String host, int port) {
