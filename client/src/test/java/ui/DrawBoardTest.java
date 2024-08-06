@@ -1,4 +1,11 @@
 package java.ui;
 
-public class DrawBoardTest {
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class DrawBoardTest {
+    @Test
+    void drawBoard() {
+    }
 }
