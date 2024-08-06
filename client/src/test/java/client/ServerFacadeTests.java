@@ -9,7 +9,7 @@ import server.Server;
 import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServerFacadeTest {
+public class ServerFacadeTests {
     private static Server server;
     private static ServerFacade serverFacade;
 
@@ -73,7 +73,6 @@ public class ServerFacadeTest {
     public void goodCreateGame() throws Exception {
         serverFacade.register("User1", "Pw1", "email@email.com");
         AuthData returnData = serverFacade.login("User1", "Pw1");
-
         GameData returnGame = serverFacade.createGame("New Game", returnData.authToken());
         assert returnGame != null;
     }
@@ -105,6 +104,7 @@ public class ServerFacadeTest {
         serverFacade.joinGame(createData.gameID(), ChessGame.TeamColor.BLACK, returnData1.authToken());
         assertThrows(Exception.class, () -> {serverFacade.joinGame(createData.gameID(), ChessGame.TeamColor.BLACK, returnData2.authToken());});
     }
+
 
     @Test
     public void listGames() throws Exception {
