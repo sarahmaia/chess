@@ -21,13 +21,13 @@ public class Menu {
     private final ServerFacade server;
     private GameData gameData;
     private GameData[] gameList;
-    private Map<Integer, Integer> gameIdMap = new HashMap<>();
+    private final Map<Integer, Integer> gameIdMap = new HashMap<>();
     Map<Integer, Integer> reverseMap = new HashMap<>();
     private final DrawBoard drawBoard = new DrawBoard();
     private String username;
     private String authToken;
     private UserState currentState = UserState.LOGGED_OUT;
-    private String failure = "Couldn't process your command: ";
+    private final String failure = "Couldn't process your command: ";
 
     public Menu(String hostname, int portNumber) {
         server = new ServerFacade(hostname, portNumber);
@@ -46,7 +46,7 @@ public class Menu {
         String[] params = input.split(" ");
         String command = params[0].toLowerCase();
         switch (currentState) {
-            case LOGGED_OUT:
+            case LOGGED_OUT -> {
                 switch (command) {
                     case "login" -> login(params);
                     case "register" -> register(params);
@@ -54,8 +54,8 @@ public class Menu {
                     case "quit" -> quit();
                     default -> System.out.println("Invalid command: " + command);
                 }
-                break;
-            case LOGGED_IN, WHITE, BLACK, OBSERVER:
+            }
+            case LOGGED_IN, WHITE, BLACK, OBSERVER -> {
                 switch (command) {
                     case "logout" -> logout();
                     case "list" -> list();
@@ -66,7 +66,7 @@ public class Menu {
                     case "quit" -> quit();
                     default -> System.out.println("Invalid command: " + command);
                 }
-                break;
+            }
         }
     }
 
