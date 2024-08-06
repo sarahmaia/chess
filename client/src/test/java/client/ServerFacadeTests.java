@@ -1,4 +1,4 @@
-package java.client;
+package client;
 
 import chess.ChessGame;
 import help.ServerFacade;
